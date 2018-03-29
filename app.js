@@ -6,8 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose   = require('mongoose');
 var session = require('express-session');
-mongoose.connect("mongodb://"+ 'user1' +":"+ 'user1' +"@"+ '127.0.0.1' +":"+ '27017' +"/"+ 'vegie', function (err, data) {
-console.log(err);
+mongoose.connect("mongodb://"+ 'admin' +":"+ 'admin' +"@"+ 'ds127129.mlab.com' +":"+ '27129' +"/"+ 'kitchendisplay', function (err, data) {
+
 });
 var app = express();
 app.use(session({
