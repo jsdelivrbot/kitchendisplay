@@ -1,0 +1,158 @@
+
+  <section id="form" ng-init="hidden=true" ng-controller="UserController"><!--form-->
+    <div class="container" ng-init="getCountries();initSignup()">
+      <div class="row">
+        <div class="col-sm-4 col-sm-offset-1">
+          <div class="login-form"><!--login form-->
+            <h2>Login to your account</h2>
+            <form role="form" name="loginForm" novalidate
+              ng-submit="login()">
+             
+
+    <input type="text" class="" name="email" ng-model="userLogin.email" ng-pattern="/^([\w-+]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i" placeholder="Enter Email"
+                       ng-required="true">
+      <span style="color:red" ng-show="(loginForm.email.$dirty || login_submitted) && ( loginForm.email.$error.pattern || loginForm.email.$error.required)" >
+        <span ng-show="loginForm.email.$error.required">Email is required.</span>
+        <span ng-show="!loginForm.email.$error.required && loginForm.email.$error.pattern" class="control-label">Invalid email address.</span>
+      </span>
+
+    <input type="password" class="" name="name" ng-model="userLogin.password" ng-pattern="/^\S*$/" placeholder="Enter Password" ng-required="true">
+
+      <span style="color:red" ng-show="(loginForm.name.$dirty  || login_submitted) && (loginForm.name.$error.required || loginForm.name.$error.pattern)">
+        <span ng-show="loginForm.name.$error.required">Password is required.</span>
+        <span ng-show="!loginForm.name.$error.required && loginForm.name.$error.pattern" class="control-label">Invalid password.</span>
+      </span>
+
+<!-- 
+              <span>
+                <input type="checkbox" class="checkbox"> 
+                Keep me signed in
+              </span> -->
+              <button type="submit"  class="btn btn-default">Login</button>
+            </form>
+          </div><!--/login form-->
+        </div>
+        <div class="col-sm-1">
+          <h2 class="or">OR</h2>
+        </div>
+        <div class="col-sm-4">
+          <div class="signup-form"><!--sign up form-->
+            <h2>New User Signup!</h2>
+            <form name="signupForm" novalidate
+              ng-submit="signup()">
+              <input type="text" name= "first_name" placeholder="First Name" ng-model = "userPrototype.personalInfo.firstName" ng-pattern="/^[A-Za-z0-9*!@#$_&^%?()+-\s]*$/"  ng-maxlength="255" ng-required="true"/>
+
+
+              <span style="color:red" ng-show="(signupForm.first_name.$dirty || submitted) && (signupForm.first_name.$error.required || signupForm.first_name.$error.pattern || signupForm.first_name.$error.maxlength)">
+        <span ng-show="signupForm.first_name.$error.required">First name is required.</span>
+        <span ng-show="!signupForm.first_name.$error.required && signupForm.first_name.$error.pattern" class="control-label">Special character are not allowed.</span>
+        <span ng-show="!signupForm.first_name.$error.required && !signupForm.first_name.$error.pattern && signupForm.first_name.$error.maxlength" class="control-label">Maximum of 255 characters are allowed.</span>
+      </span>
+              <input type="text" name="last_name" placeholder="Last Name" ng-model = "userPrototype.personalInfo.lastName" ng-maxlength="255" ng-required="true"/>
+
+                <span style="color:red" ng-show="(signupForm.last_name.$dirty  || submitted) && (signupForm.last_name.$error.maxlength || signupForm.last_name.$error.required)">
+        <span ng-show="signupForm.last_name.$error.required">Last name is required.</span>
+        <span ng-show="!signupForm.last_name.$error.required && signupForm.last_name.$error.maxlength" class="control-label">Maximum of 255 characters are allowed.</span>
+      </span>
+
+              <input type="email"  ng-pattern="/^([\w-+]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i" name="email" placeholder="Email Address" ng-model = "userPrototype.email" ng-required="true"/>
+
+                  <span style="color:red" ng-show="(signupForm.email.$dirty || submitted) && (signupForm.email.$error.pattern || signupForm.email.$error.required)">
+        <span ng-show="signupForm.email.$error.required">Email address is required.</span>
+        <span ng-show="!signupForm.email.$error.required && signupForm.email.$error.pattern" class="control-label">Invalid email address.</span>
+      </span>
+
+              <input type="password" placeholder="Password" ng-model = "userPrototype.password" name="password" ng-pattern="/^\S*$/" ng-minlength="6" ng-maxlength="255" ng-required="true"/>
+
+                    <span style="color:red" ng-show="(signupForm.password.$dirty  || submitted)  && (signupForm.password.$error.pattern || signupForm.password.$error.required || signupForm.password.$error.maxlength || signupForm.password.$error.minlength)">
+        <span ng-show="signupForm.password.$error.required">Password is required.</span>
+        <span ng-show="!signupForm.password.$error.required && signupForm.password.$error.pattern" class="control-label">Invalid password.</span>
+
+        <span ng-show="!signupForm.password.$error.required && !signupForm.password.$error.pattern && signupForm.password.$error.minlength" class="control-label">Minimum of 6 characters is required.</span>
+
+        <span ng-show="!signupForm.password.$error.required && !signupForm.password.$error.pattern && !signupForm.password.$error.minlength &&  signupForm.password.$error.maxlength" class="control-label">Maximum of 255 characters are allowed.</span>
+      </span>
+
+              <input type="password" placeholder="Confirm Password" compare-to="{{userPrototype.password}}" ng-model = "userPrototype.confirm_password"  name="confirm_password" ng-required="true"/>
+
+                      <span style="color:red" ng-show="(signupForm.confirm_password.$dirty || submitted) && (signupForm.confirm_password.$error.compareTo || signupForm.confirm_password.$error.required)">
+        <span ng-show="signupForm.confirm_password.$error.required">Confirm password is required.</span>
+          <span ng-show="!signupForm.confirm_password.$error.required && signupForm.confirm_password.$error.compareTo" class="control-label">Confirm password does not match.</span>
+      </span>
+
+
+              <input type="text" placeholder="Mobile" ng-model = "userPrototype.personalInfo.mobile" ng-minlength="10" ng-maxlength="12" name="mobile" ng-pattern="/^[0-9]*$/" ng-required="true"/>
+
+                    <span style="color:red" ng-show="(signupForm.mobile.$dirty || submitted) && ( signupForm.mobile.$error.maxlength || signupForm.mobile.$error.minlength || signupForm.mobile.$error.pattern || signupForm.mobile.$error.required)">
+        <span ng-show="signupForm.mobile.$error.required">Mobile number is required.</span>
+
+                <span ng-show="!signupForm.mobile.$error.required && signupForm.mobile.$error.pattern" class="control-label">Mobile number should be numeric.</span>
+                <span ng-show="!signupForm.mobile.$error.required && !signupForm.mobile.$error.pattern && signupForm.mobile.$error.minlength"class="control-label">Minimum of 10 digits is required.</span>
+                <span ng-show="!signupForm.mobile.$error.required && !signupForm.mobile.$error.pattern && !signupForm.mobile.$error.minlength && signupForm.mobile.$error.maxlength"class="control-label">Maximum 12 digits are allowed.</span>
+
+      </span>
+
+              <input type="text" placeholder="Phone" ng-model = "userPrototype.personalInfo.phone" ng-pattern="/^[0-9]*$/" ng-minlength="7" ng-maxlength="10" name="phone"/>
+
+                      <span style="color:red" ng-show="(signupForm.phone.$dirty || submitted) && (signupForm.phone.$invalid)">
+      
+
+                <span ng-show="signupForm.phone.$error.pattern" class="control-label">Phone number should be numeric.</span>
+
+                <span ng-show="!signupForm.phone.$error.pattern && signupForm.phone.$error.minlength"class="control-label">Minimum of 7 digits is required.</span>
+                <span ng-show="!signupForm.phone.$error.pattern && !signupForm.phone.$error.minlength && signupForm.phone.$error.maxlength"class="control-label">Maximum 10 digits are allowed.</span>
+
+      </span>
+
+              <select style="margin-bottom:10px" name="role" ng-model = "userPrototype.role" ng-required="true">
+                    <option value="">-- I am --</option>
+                    <option value="1">Vendor</option>
+                    <option value="2">Customer</option>
+                    
+                  </select>
+
+        <span style="color:red" ng-show="(signupForm.role.$dirty  || submitted) && (signupForm.role.$error.required)">
+        <span ng-show="signupForm.role.$error.required">Role is required.</span>
+      </span>
+                  <select style="margin-bottom:10px" name="gender" ng-model = "userPrototype.personalInfo.gender" ng-required="true">
+                    <option value="">-- Gender --</option>
+                    <option value="M">Male</gender>
+                    <option value="F">Female</option>
+                    
+                  </select>
+
+        <span style="color:red" ng-show="(signupForm.gender.$dirty|| submitted) && ( signupForm.gender.$error.required)">
+        <span ng-show="signupForm.gender.$error.required">Gender is required.</span>
+      </span>
+
+              <select name="country" style="margin-bottom:10px" ng-model = "userPrototype.address.country" ng-required="true" ng-options="val._id as val.name for val in countries.data">
+                    <option value="">-- Country --</option>
+                  </select>
+
+                  <span style="color:red" ng-show="(signupForm.country.$dirty || submitted) && (signupForm.country.$error.required)">
+        <span ng-show="signupForm.country.$error.required">Country is required.</span>
+      </span>
+
+
+
+                      <input name="state" type="text" placeholder="State" ng-model = "userPrototype.address.state" ng-maxlength = "255" ng-required="true"/>
+
+                         <span style="color:red" ng-show="(signupForm.state.$dirty || submitted) && ( signupForm.state.$error.required)">
+        <span ng-show="signupForm.state.$error.required">State is required.</span>
+      </span>
+
+                  <input name="city" type="text" placeholder="City" ng-model = "userPrototype.address.city" ng-maxlength = "255" required/>
+
+
+                         <span style="color:red" ng-show="(signupForm.city.$dirty || submitted) && ( signupForm.city.$error.required || signupForm.city.$error.maxlength)">
+        <span ng-show="signupForm.city.$error.required">City is required.</span>
+        <span ng-show="signupForm.city.$error.maxlength"class="control-label">Maximum 255 characters are allowed.</span>
+      </span>
+
+              <button type="submit" class="btn btn-default">Signup</button>
+            </form>
+          </div><!--/sign up form-->
+        </div>
+      </div>
+    </div>
+  </section><!--/form-->

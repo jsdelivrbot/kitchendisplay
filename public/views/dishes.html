@@ -1,0 +1,76 @@
+<div class="container" ng-init="hidden=true" ng-controller="DishesController">
+
+<ng-include src="'/views/nav.html'"></ng-include>
+    <div ng-show="hidden">
+        <h2>All Dishes</h2>
+
+        <button type="button" class="btn btn-primary btn-md pull-right" ng-click="showAddForm()">Add</button>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Sr.</th>
+                <th>Name</th>
+                <th>Prediction</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="data in dishes.list">
+                <td>{{$index+1}}</td>
+                <td>{{data.name}}</td>
+                <td>{{data.prediction}}</td>
+                <td>{{data.status=='1' ? 'Active' : 'Inactive'}}</td>
+                <td><a ng-href="" ng-click="editDish($index)">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+                    <a ng-href="" ng-click="deleteDish($index, data._id)">
+                        <span class="glyphicon  glyphicon glyphicon-trash"></span>
+                    </a>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div ng-hide="hidden">
+        <h2>{{dishes.item._id ? 'Edit' : 'Add'}} Dish</h2>
+
+        <form role="form" name="myForm" novalidate
+              ng-submit="dishes.item._id ? editDish(dishes.item._id,'update') : addDish()">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" class="form-control" name="name" ng-model="dishes.item.name" placeholder="Enter Name"
+                       required>
+      <span style="color:red" ng-show="myForm.$submitted &&  (myForm.name.$dirty && myForm.name.$invalid || myForm.name.$error.required)">
+		<span ng-show="myForm.name.$error.required">Name is required.</span>
+	  </span>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Prediction:</label>
+                <input type="text" id="prediction" class="form-control" name="prediction" ng-model="dishes.item.prediction" placeholder="Enter Prediction"
+                       required>
+                <span style="color:red" ng-show="myForm.$submitted &&  (myForm.prediction.$dirty && myForm.prediction.$invalid || myForm.prediction.$error.required)">
+		<span ng-show="myForm.prediction.$error.required">Prediction is required.</span>
+	  </span>
+            </div>
+
+
+            <div class="form-group">
+                <label >Status:</label>
+
+                <select class="form-control" ng-model="dishes.item.status">
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </select>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary btn-md" ng-disabled="!myForm.$valid">Submit</button>
+            <button type="button" class="btn btn-primary btn-md" ng-click="hidden=true">Cancel</button>
+        </form>
+    </div>
+</div>
+

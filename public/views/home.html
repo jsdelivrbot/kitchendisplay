@@ -1,0 +1,48 @@
+<style element>
+	.btn-space {
+		margin-right: 5px;
+	}
+</style>
+
+<div class="container" ng-controller="HomeController" >
+	<ng-include src="'/views/nav.html'"></ng-include>
+	<div ng-init="getTodayList()">
+		<h2 ng-init="getCategories()">Kitchen Display</h2>
+
+		<button type="button" class="btn btn-space btn-primary btn-md pull-right " ng-click="downloadReport()" >Download Report</button>
+		<br>
+		<br>
+		<br>
+		<br>
+
+		<table class="table">
+
+			<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>quantity</th>
+				<th>Created-Till-Now</th>
+				<th>Predicted</th>
+				<th>Status</th>
+				<th>Action</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat= "data in kitchen.orders">
+				<td>{{$index+1}}</td>
+				<td>{{data.dishId.name}} </td>
+				<td>{{data.quantity}} </td>
+				<td>{{kitchen.dishes.length *  data.quantity}} </td>
+				<td>{{data.dishId.prediction}} </td>
+				<td>{{data.status=='1' ? 'Active' : 'Inactive'}}</td>
+				<td><button type="button" class="btn btn-primary btn-md pull-left" ng-click="getTodayList()" >Done</button></td>
+
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+
+</div>
+

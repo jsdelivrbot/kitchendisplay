@@ -1,0 +1,82 @@
+<div class="container" ng-init="hidden=true" ng-controller="OrdersController">
+
+<ng-include src="'/views/nav.html'"></ng-include>
+    <div ng-show="hidden">
+        <h2>All Orders</h2>
+
+        <button type="button" class="btn btn-primary btn-md pull-right" ng-click="showAddForm()">Add</button>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Sr.</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Placed Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="data in orders.list">
+                <td>{{$index+1}}</td>
+                <td>{{data.dishId.name}}</td>
+                <td>{{data.quantity}}</td>
+                <td>{{data.created | date :  "dd-MM-yyyy"}}</td>
+                <td>{{data.status=='1' ? 'Active' : 'Inactive'}}</td>
+                <td><a ng-href="" ng-click="editOrder($index)">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+                    <a ng-href="" ng-click="deleteOrder($index, data._id)">
+                        <span class="glyphicon  glyphicon glyphicon-trash"></span>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div ng-hide="hidden">
+        <h2>{{orders.item._id ? 'Edit' : 'Add'}} Order</h2>
+
+        <form role="form" name="myForm" novalidate
+              ng-submit="orders.item._id ? editOrder(orders.item._id,'update') : addOrder()">
+            <div class="form-group">
+                <label >Select Dish:</label>
+
+                <select name="dishId" class="form-control" ng-model="orders.item.dishId" ng-options = " value._id as value.name for value in orders.dishes" ng-required="true">
+                    <option value=''>Select Dish</option>
+                </select>
+
+                <span style="color:red" ng-show="myForm.$submitted &&  (myForm.dishId.$dirty && myForm.dishId.$invalid || myForm.dishId.$error.required)">
+		<span ng-show="myForm.dishId.$error.required">Dish is required.</span>
+	  </span>
+
+            </div>
+
+
+            <div class="form-group">
+                <label >Quantity:</label>
+                <input type="text" id="prediction" class="form-control" name="prediction" ng-model="orders.item.quantity" placeholder="Enter Quantity"
+                       required>
+                <span style="color:red" ng-show="myForm.$submitted &&  (myForm.prediction.$dirty && myForm.prediction.$invalid || myForm.prediction.$error.required)">
+		<span ng-show="myForm.prediction.$error.required">Quantity is required.</span>
+	  </span>
+            </div>
+
+
+            <div class="form-group">
+                <label >Status:</label>
+
+                <select class="form-control" ng-model="orders.item.status">
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </select>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary btn-md" ng-disabled="!myForm.$valid">Submit</button>
+            <button type="button" class="btn btn-primary btn-md" ng-click="hidden=true">Cancel</button>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,22 @@
+﻿.cre_accordian {
+  display: block;
+}
+.bg-success {
+  background-color: #dff0d8;
+   text-align:center; border-radius: 5px; border:solid 1px #ccc;
+    font-size: 17px;
+    margin: 5% 0;
+    padding: 20px;
+  
+}
+a.bg-success:hover {
+  background-color: #c1e2b3;
+}
+.bg-error {
+  	background-color: #f2dede;
+   text-align:center; border-radius: 5px; border:solid 1px #ccc;
+    font-size: 17px;
+    margin: 5% 0;
+    padding: 20px;
+  
+}
